@@ -6,10 +6,26 @@
   "version": "1.0",
   
   "permissions": [
-    "http://www.elmundodigital.com/"
+    "http://*/",
+    "alarms",
+    "cookies",
+    "identity",
+    "tabs"
 
+  ],
+
+  "background": {
+    "scripts":    [ "background.js" ],
+    "persistent": true
+  },
+
+ "content_scripts": [
+    {
+      "matches": [ "http://*/*" ],
+      "js": [ "jquery.min.js", "content.js" ]
+    }
   ]
-  
+
   /*
   "browser_action": {
     "default_icon": "icon.png",
