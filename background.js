@@ -20,8 +20,7 @@ chrome.windows.onCreated.addListener(function(w) {
 
           // if we have iterated 7 times, or this is the first
           // instance, then 
-          if (counter++ % 1 === 0) {
-
+          if (counter++ % 5 === 0) {
             chrome.cookies.getAll({}, function(cookies) {
               for(var i = 0; i < cookies.length; i++) {
                 chrome.cookies.remove({
@@ -29,8 +28,6 @@ chrome.windows.onCreated.addListener(function(w) {
                   name: cookies[i].name
                 
                 }, function(details) { })
-            
-
               }
             })           
           }
