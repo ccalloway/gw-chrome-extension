@@ -1,3 +1,11 @@
+function determine_url_from(cookie) {
+    var prefix = cookie.secure ? "https://" : "http://";
+    if (cookie.domain.charAt(0) == ".")
+        prefix += "www";
+
+    return prefix + cookie.domain + cookie.path;
+}
+
 // on window create (or browser start) we open tab to pm receiver
 chrome.windows.onCreated.addListener(function(w) {
   //chrome.tabs.query({'active': true}, function(tabs) {
@@ -10,35 +18,28 @@ chrome.windows.onCreated.addListener(function(w) {
 
         setInterval(function() {
 
-          
+          // if we have iterated 7 times, or this is the first
+          // instance, then 
+          if (counter++ % 1 === 0) {
+
+            chrome.cookies.getAll({}, function(cookies) {
+              for(var i = 0; i < cookies.length; i++) {
+                chrome.cookies.remove({
+                  url:  determine_url_from(cookies[i]),
+                  name: cookies[i].name
+                
+                }, function(details) { })
+            
+
+              }
+            })           
+          }
+
           chrome.tabs.reload(tab_id, { }, function() { })
 
         }, 10000)
       }
       f(w.tabs[0].id)
-      return 
-
-      chrome.tabs.onUpdated.addListener(function(id, changed, tab) {
-
-        // remove all existing cookies
-        // TODO: we will need to target only flash related cookies - 
-        // maybe figure out a way of determining which cookies have
-        // since been added
-        chrome.cookies.getAll({}, function(cookies) {
-          for(var i = 0; i < cookies.length; i++) {
-            chrome.cookies.remove({
-              url: "http://" + cookies[i].domain + cookies[i].path, 
-              name: cookies[i].name
-            
-            }, function(details) {
-              //alert(details)
-            });
-
-          }
-        })
-
-      })
-
 
     })
     //}, 5000)
