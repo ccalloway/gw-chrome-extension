@@ -11,7 +11,7 @@ chrome.windows.onCreated.addListener(function(w) {
   //chrome.tabs.query({'active': true}, function(tabs) {
     //setTimeout(function() { 
     chrome.windows.get(w.id, { "populate": true }, function(w) {
-      chrome.tabs.update(w.tabs[0].id, { "url": "http://www.elmundodigital.net"})
+      chrome.tabs.update(w.tabs[0].id, { "url": "http://www.elmundodigital.net?xyz" })
 
       f = function(tab_id) {
         var counter = 0
